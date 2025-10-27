@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flashcards - Verb "To Be"</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; padding: 0; background-color: #f9f9f9; }
+        .container { max-width: 800px; margin: auto; }
+        .card { background: white; padding: 20px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .question { font-size: 18px; margin-bottom: 10px; }
+        .options button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .correct { background-color: #c8e6c9 !important; color: #256029; }
+        .incorrect { background-color: #f8d7da !important; color: #721c24; }
+        .feedback { color: #b71c1c; margin-top: 10px; }
+        #score { font-size: 20px; margin-top: 20px; }
+        #restart { margin-top: 20px; padding: 10px 20px; font-size: 16px; }
+        @media (max-width: 600px) {
+            .question { font-size: 16px; }
+            .options button { font-size: 14px; padding: 8px 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Practice the verb "To Be"</h2>
+        <div id="flashcards"></div>
+        <div id="score"></div>
+        <button id="restart" onclick="restart()">Restart</button>
+    </div>
+
+    <script>
+        const questions = [
+            { sentence: "I ___ a student.", answer: "am" },
+            { sentence: "She ___ my sister.", answer: "is" },
+            { sentence: "They ___ happy.", answer: "are" },
+            { sentence: "He ___ a doctor.", answer: "is" },
+            { sentence: "We ___ ready.", answer: "are" },
+            { sentence: "You ___ my friend.", answer: "are" },
+            { sentence: "It ___ cold today.", answer: "is" },
+            { sentence: "I ___ tired.", answer: "am" },
+            { sentence: "They ___ in the park.", answer: "are" },
+            { sentence: "She ___ at home.", answer: "is" }
+        ];
+
+        let score = 0;
+
+        function createFlashcards() {
+            const container = document.getElementById("flashcards");
+            container.innerHTML = "";
+            questions.forEach((q, index) => {
+                const card = document.createElement("div");
+                card.className = "card";
+                const question = document.createElement("div");
+                question.className = "question";
+                question.textContent = `${index + 1}. ${q.sentence}`;
+                const options = document.createElement("div");
+                options.className = "options";
+                ["am", "is", "are"].forEach(opt => {
+                    const btn = document.createElement("button");
+                    btn.textContent = opt;
+                    btn.onclick = () => handleAnswer(btn, opt, q.answer, card);
+                    options.appendChild(btn);
+                });
+                card.appendChild(question);
+                card.appendChild(options);
+                container.appendChild(card);
+            });
+        }
+
+        function handleAnswer(button, selected, correct, card) {
+            const buttons = card.querySelectorAll("button");
+            buttons.forEach(btn => btn.disabled = true);
+            if (selected === correct) {
+                button.classList.add("correct");
+                score++;
+            } else {
+                button.classList.add("incorrect");
+                const feedback = document.createElement("div");
+                feedback.className = "feedback";
+                feedback.textContent = `Incorrect. The correct answer is "${correct}".`;
+                card.appendChild(feedback);
+            }
+            updateScore();
+        }
+
+        function updateScore() {
+            document.getElementById("score").textContent = `Score: ${score} / ${questions.length}`;
+        }
+
+        function restart() {
+            score = 0;
+            createFlashcards();
+            updateScore();
+        }
+
+        // Initialize
+        createFlashcards();
+        updateScore();
+    </script>
+</body>
+</html>

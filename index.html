@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flashcards: Verb to Be</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      color: #2c3e50;
+      text-align: center;
+    }
+    .card {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 400px;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 1rem;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.03);
+    }
+    .controls {
+      margin-top: 1rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    button {
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      background-color: #3498db;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+    @media (max-width: 500px) {
+      .card {
+        height: 150px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Flashcards: Verb to Be</h1>
+  <div class="card" id="flashcard" onclick="flipCard()">
+    <span id="card-text">I ___ a student.</span>
+  </div>
+  <div class="controls">
+    <button onclick="prevCard()">Previous</button>
+    <button onclick="nextCard()">Next</button>
+  </div>
+
+  <script>
+    const flashcards = [
+      {
+        question: "I ___ a student.",
+        answer: "I am a student."
+      },
+      {
+        question: "You ___ my friend.",
+        answer: "You are my friend."
+      },
+      {
+        question: "He ___ a doctor.",
+        answer: "He is a doctor."
+      },
+      {
+        question: "We ___ happy.",
+        answer: "We are happy."
+      },
+      {
+        question: "They ___ at school.",
+        answer: "They are at school."
+      },
+      {
+        question: "She ___ not here.",
+        answer: "She is not here."
+      },
+      {
+        question: "It ___ a cat.",
+        answer: "It is a cat."
+      }
+    ];
+
+    let current = 0;
+    let showingAnswer = false;
+
+    function updateCard() {
+      const cardText = document.getElementById("card-text");
+      cardText.textContent = showingAnswer
+        ? flashcards[current].answer
+        : flashcards[current].question;
+    }
+
+    function flipCard() {
+      showingAnswer = !showingAnswer;
+      updateCard();
+    }
+
+    function nextCard() {
+      current = (current + 1) % flashcards.length;
+      showingAnswer = false;
+      updateCard();
+    }
+
+    function prevCard() {
+      current = (current - 1 + flashcards.length) % flashcards.length;
+      showingAnswer = false;
+      updateCard();
+    }
+
+    updateCard();
+  </script>
+</body>
+</html>
